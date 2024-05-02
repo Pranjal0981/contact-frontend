@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from './hooks'
+
 import { Link } from "react-router-dom";
 import { asyncDeleteContact, asyncViewContact, createContact } from "../store/actions/Actions";
 interface Contact {
@@ -21,7 +22,7 @@ const SideBar: React.FC = () => {
 };
 
 export const CreateContact: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [formData, setFormData] = useState<Contact>({
         firsName: '', // Corrected property name
         lastName: '',
@@ -79,8 +80,8 @@ export const CreateContact: React.FC = () => {
 };
 
 export const ViewContacts: React.FC = () => {
-    const dispatch = useDispatch();
-    const contacts: Contact[] = useSelector((state: any) => state.user.contacts); // Assuming user slice has contacts state
+    const dispatch = useAppDispatch();
+    const { contacts } = useAppSelector((state) => state.user); // Assuming user slice has contacts state
 
     useEffect(() => {
         dispatch(asyncViewContact());
@@ -96,15 +97,15 @@ export const ViewContacts: React.FC = () => {
         <div className="container mx-auto">
             <h2 className="text-2xl font-bold my-4">All Contacts</h2>
             {contacts.map((contact) => (
-                <div key={contact.id} className="bg-white shadow-md rounded-md p-4 my-4">
-                    <h3 className="text-lg font-semibold">{contact.name}</h3>
-                    <p className="text-gray-600">Phone: {contact.phone}</p>
-                    <p className="text-gray-600">Email: {contact.email}</p>
+                <div key={contact._id} className="bg-white shadow-md rounded-md p-4 my-4">
+                    <h3 className="text-lg font-semibold">{contact.firstName}</h3>
+                    <p className="text-gray-600">Phone: {contact.lastName}</p>
+                    <p className="text-gray-600">Email: {contact.status}</p>
                     <div className="mt-4 flex">
                         <button className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2">Update</button>
                         <button
                             className="bg-red-500 text-white py-2 px-4 rounded-md"
-                            onClick={() => handleDelete(contact.id)}
+                            onClick={() => handleDelete(contact._id)}
                         >
                             Delete
                         </button>
@@ -115,4 +116,4 @@ export const ViewContacts: React.FC = () => {
     );
 };
 
-export default ViewContacts;
+

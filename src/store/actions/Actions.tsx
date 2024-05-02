@@ -1,7 +1,7 @@
 import { saveUser } from "../reducers/slice";
 import axios from "../../config";
 import { Dispatch } from "@reduxjs/toolkit";
-export const createContact = (formData: any) => async (dispatch: Dispatch, getState: () => AppState) => {
+export const createContact = (formData: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.post('/user/create', formData);
         dispatch(saveUser(response.data.user)); // Dispatch an action to save user data
@@ -12,7 +12,7 @@ export const createContact = (formData: any) => async (dispatch: Dispatch, getSt
     }
 };
 
-export const asyncViewContact = () => async (dispatch: Dispatch, getState: () => AppState) => {
+export const asyncViewContact = () => async (dispatch: Dispatch) => {
     try {
         const response = await axios.get('/user/viewcontacts');
         dispatch(saveUser(response.data.user));
@@ -25,7 +25,7 @@ export const asyncViewContact = () => async (dispatch: Dispatch, getState: () =>
 
 
 
-export const asyncUpdateContact = (data: any, id: any) => async (dispatch: any, getState: any) => {
+export const asyncUpdateContact = (data: any, id: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.put(`/user/updatecontact/${id}`, data);
         dispatch(saveUser(response.data.user));
@@ -37,7 +37,7 @@ export const asyncUpdateContact = (data: any, id: any) => async (dispatch: any, 
 };
 
 
-export const asyncDeleteContact = (id: any) => async (dispatch: Dispatch, getState: () => AppState) => {
+export const asyncDeleteContact = (id: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.delete(`/user/deletecontact/${id}`);
         dispatch(asyncViewContact())
