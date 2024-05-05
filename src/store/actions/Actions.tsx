@@ -11,8 +11,11 @@ export const createContact = (formData: any): AppThunk => async (dispatch) => {
     try {
         const response = await axios.post('/user/create', formData);
         dispatch(saveUser(response.data.user)); // Dispatch an action to save user data
+        toast.success("Contact Created")
     } catch (error) {
         console.log(error);
+        toast.success("Error Creating Contact")
+
         throw error;
     }
 };
